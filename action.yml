@@ -1,0 +1,40 @@
+name: Build ModMaster
+description: Builds minecraft mod with ModMaster plugin
+
+inputs:
+  java-version:
+    description: "Java version to use"
+    required: false
+    default: "22"
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up JDK ${{ inputs.java-version }}
+      uses: actions/setup-java@v4
+      with:
+        java-version: ${{ inputs.java-version }}
+        distribution: "temurin"
+
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v4
+
+    - name: Build
+      run: ./gradlew check build
+      shell: bash
+
+    - name: Set mod version
+      run: |
+        grep ^archives_base_name= gradle.properties >> $GITHUB_ENV
+        grep ^mod_version= gradle.properties >> $GITHUB_ENV
+      shell: bash
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: "${{ env.archives_base_name }}-${{ env.mod_version }}"
+        path: |
+          build/**/**/libs/
+          !build/*/libs/
