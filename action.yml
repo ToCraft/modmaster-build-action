@@ -27,14 +27,14 @@ runs:
 
     - name: Set mod version
       run: |
-        grep ^archives_base_name= gradle.properties >> $GITHUB_ENV
+        grep ^modid= gradle.properties >> $GITHUB_ENV
         grep ^mod_version= gradle.properties >> $GITHUB_ENV
       shell: bash
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v6
       with:
-        name: "${{ env.archives_base_name }}-${{ env.mod_version }}"
+        name: "${{ env.modid }}-${{ env.mod_version }}"
         path: |
           build/**/**/libs/
           !build/*/libs/
