@@ -32,9 +32,7 @@ runs:
       shell: bash
 
     - name: Upload build artifacts
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
-        name: "${{ env.modid }}-${{ env.mod_version }}"
-        path: |
-          build/**/**/libs/
-          !build/*/libs/
+        path: "build/${{ env.modid }}-${{ env.mod_version }}.zip"
+        archive: false
