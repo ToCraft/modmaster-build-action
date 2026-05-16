@@ -34,5 +34,5 @@ runs:
     - name: Upload build artifacts
       uses: actions/upload-artifact@v7
       with:
-        path: "build/${{ env.modid }}-${{ env.mod_version }}.zip"
+        path: "build/*.zip"
         archive: false
